@@ -9,8 +9,15 @@ export const get = query({
 });
 
 export const add = mutation({
-  args: { text: v.string(), isCompleted: v.boolean() },
+  args: { text: v.string() },
   handler: async (ctx, args) => {
-    return await ctx.db.insert("tasks", { text: args.text, isCompleted: args.isCompleted });
+    return await ctx.db.insert("tasks", { text: args.text, isCompleted: false });
+  }
+})
+
+export const updateTask = mutation({
+  args: { _id: v.id("tasks"), text: v.string(), isCompleted: v.boolean() },
+  handler: async (ctx, args) => {
+    return await ctx.db.patch(args._id, { text: args.text, isCompleted: args.isCompleted });
   }
 })
